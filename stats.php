@@ -32,3 +32,21 @@ function getServerData() {
     // Kthe te dhenat e sakta
     return $data;
 }
+
+// Pergatit pergjigjen per stats
+function handleStats() {
+
+    // Merr te dhenat nga JSON
+    $data = getServerData();
+
+    // Shton kohen aktuale te serverit
+    $data["server_time"] = date("Y-m-d H:i:s");
+
+    // Nese server_status nuk ekziston ne JSON, vendos default "running"
+  if (!isset($data["server_status"])) {
+    $data["server_status"] = "running";
+}
+
+    // Kthen pergjigjen ne format JSON
+    return json_encode($data, JSON_PRETTY_PRINT);
+}
