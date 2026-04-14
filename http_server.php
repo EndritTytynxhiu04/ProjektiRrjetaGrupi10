@@ -26,4 +26,26 @@ socket_listen($httpSocket, 5);
 echo "HTTP Monitoring Server\n";
 echo "Server aktiv ne: http://$httpHost:$httpPort\n";
 
+// Lexo kerkesen HTTP nga browser-i
+function readRequest($clientSocket) {
+    $request = "";
+
+    while (true) {
+        $data = socket_read($clientSocket, 1024);
+
+        if ($data === false || $data === "") {
+            break;
+        }
+
+        $request .= $data;
+        
+        // Nese arrihet fundi i header-it HTTP, ndalu
+        if (strpos($request, "\r\n\r\n") !== false) {
+            break;
+        }
+    }
+
+    return $request;
+}
+
 ?>
