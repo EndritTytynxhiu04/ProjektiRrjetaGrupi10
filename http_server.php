@@ -1,6 +1,7 @@
 <?php
 
-require 'stats.php';
+// Lidhja me stats.php
+require_once __DIR__ . '/stats.php';
 
 // Konfigurimi
 $httpHost = "127.0.0.1";
