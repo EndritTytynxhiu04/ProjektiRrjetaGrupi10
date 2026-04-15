@@ -1,6 +1,7 @@
 <?php
 
 require 'config.php';
+require 'file_manager.php';
 
 //Krijimi i TCP/IP socket-it
 $master_socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
@@ -66,7 +67,7 @@ while (true) {
     //Menazhimi i diskonektimeve
     foreach ($read_sockets as $read_sock) {
         
-        $data = @socket_read($read_sock, 1024, PHP_NORMAL_READ);
+        $data = @socket_read($read_sock, 2048);
         
         if ($data === false || trim($data) == '') {
             
@@ -75,6 +76,11 @@ while (true) {
             unset($clients[$key]);
             socket_close($read_sock);
             echo "Client $client_ip disconnected. Total clients: " . (count($clients) - 1) . "\n";
+        }
+        else {
+                
+            $response = handleCommand($data, $read_sock);
+            socket_write($read_sock, $response, strlen($response));
         }
     }
 }
