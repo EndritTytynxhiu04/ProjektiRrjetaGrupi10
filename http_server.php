@@ -1,11 +1,8 @@
 <?php
 
-// Lidhja me stats.php
+// Lidhja me config.php dhe stats.php
+require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/stats.php';
-
-// Konfigurimi
-$httpHost = "127.0.0.1";
-$httpPort = 8080;
 
 // Krijimi i socket-it
 $httpSocket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
