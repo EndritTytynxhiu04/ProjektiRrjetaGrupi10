@@ -16,6 +16,7 @@ echo "Connected to server ($host:$port)\n";
 $response = @socket_read($socket, 1024);
 if ($response) {
     echo "Server: $response\n";
+}
     
 echo "Enter role (admin/user): ";
 $role = trim(fgets(STDIN));
@@ -63,6 +64,7 @@ while (true) {
             continue 2;
         }
     }
+}
 
  
     $message = $role . "|" . $input . "\n";
