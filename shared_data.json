@@ -1,0 +1,35 @@
+{
+    "server_status": "running",
+    "active_connections": 4,
+    "total_messages": 60,
+    "clients": [
+        {
+            "ip": "127.0.0.1",
+            "type": "admin",
+            "messages": 30,
+            "last_seen": "2026-04-11 23:32:05",
+            "status": "active"
+        },
+        {
+            "ip": "127.0.0.1",
+            "type": "readonly",
+            "messages": 15,
+            "last_seen": "2026-04-11 23:31:55",
+            "status": "active"
+        },
+        {
+            "ip": "127.0.0.1",
+            "type": "readonly",
+            "messages": 10,
+            "last_seen": "2026-04-11 23:30:00",
+            "status": "active"
+        },
+        {
+            "ip": "127.0.0.1",
+            "type": "readonly",
+            "messages": 5,
+            "last_seen": "2026-04-11 23:29:00",
+            "status": "active"
+        }
+    ]
+}
