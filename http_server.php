@@ -45,4 +45,36 @@ function readRequest($clientSocket) {
     return $request;
 }
 
+// Funksion per me dergu pergjigje HTTP te browser-i
+function sendResponse($clientSocket, $body, $statusCode = 200) {
+
+    // Percakto tekstin e statusit sipas kodit
+    if ($statusCode === 200) {
+        $statusText = "200 OK"; 
+    } elseif ($statusCode === 404) {
+        $statusText = "404 Not Found"; 
+    } elseif ($statusCode === 500) {
+        $statusText = "500 Internal Server Error"; 
+    } else {
+        $statusText = "200 OK"; // default nese s'perputhet
+    }
+
+    // Gjatesia e body
+    $length = strlen($body);
+
+    // Ndertimi i pergjigjes HTTP
+    $response  = "HTTP/1.1 $statusText\r\n"; // status line
+    $response .= "Content-Type: application/json\r\n"; // tipi i te dhenave (JSON)
+    $response .= "Content-Length: $length\r\n"; // madhesia e pergjigjes
+    $response .= "Access-Control-Allow-Origin: *\r\n"; // lejon kerkesa nga cdo origin
+    $response .= "Connection: close\r\n"; // mbyll lidhjen pas pergjigjes
+    $response .= "\r\n"; // ndan header nga body
+    $response .= $body; // permbajtja (data)
+
+    // Dergon pergjigjen te klienti
+    socket_write($clientSocket, $response);
+
+    // Mbyll lidhjen me klientin
+    socket_close($clientSocket);
+}
 ?>
