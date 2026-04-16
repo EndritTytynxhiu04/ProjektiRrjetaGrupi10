@@ -48,4 +48,35 @@ function readRequest($clientSocket) {
     return $request;
 }
 
+// Loopa e serverit HTTP per te degjuar kerkesat
+while (true) {
+    $clientSocket = socket_accept($httpSocket);
+    
+    if ($clientSocket !== false) {
+        $request = readRequest($clientSocket);
+
+        // Kontrollo nese kerkesa eshte per /stats
+        if (strpos($request, "GET /stats") !== false) {
+            
+            // Merr te dhenat JSON nga stats.php
+            $jsonResponse = handleStats();
+
+            // Krijo pergjigjen HTTP
+            $httpResponse = "HTTP/1.1 200 OK\r\n";
+            $httpResponse .= "Content-Type: application/json\r\n";
+            $httpResponse .= "Access-Control-Allow-Origin: *\r\n"; // Lejon kerkesat nga browseri
+            $httpResponse .= "Connection: close\r\n\r\n";
+            $httpResponse .= $jsonResponse;
+
+            socket_write($clientSocket, $httpResponse, strlen($httpResponse));
+        } else {
+            // Nese kerkohet dicka tjeter
+            $httpResponse = "HTTP/1.1 404 Not Found\r\n\r\nEndpoint not found. Përdor /stats";
+            socket_write($clientSocket, $httpResponse, strlen($httpResponse));
+        }
+        
+        socket_close($clientSocket);
+    }
+}
+
 ?>

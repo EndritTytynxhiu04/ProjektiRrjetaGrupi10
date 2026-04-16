@@ -21,6 +21,28 @@ if (!socket_listen($master_socket)) {
 
 echo "TCP Server started.\nListening on $host:$port...\n";
 
+//funksioni per shkrimin ne shared_data.json
+function logMessage($client_ip, $message) {
+    $file = __DIR__ . '/shared_data.json';
+    
+    // Lexon te dhenat ose krijon strukturen defaukt
+    $data = file_exists($file) ? json_decode(file_get_contents($file), true) : [];
+
+    if (!isset($data['total_messages'])) $data['total_messages'] = 0;
+    if (!isset($data['messages_list'])) $data['messages_list'] = [];
+
+    // Updejton gjendjen e statsit
+    $data['total_messages']++;
+    $data['messages_list'][] = [
+        'timestamp' => date('Y-m-d H:i:s'),
+        'ip' => $client_ip,
+        'message' => trim($message)
+    ];
+
+
+    // E ben save ne json
+    file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT));
+}
 
 $clients = array($master_socket);
 
@@ -78,7 +100,12 @@ while (true) {
             echo "Client $client_ip disconnected. Total clients: " . (count($clients) - 1) . "\n";
         }
         else {
+            socket_getpeername($read_sock, $client_ip);
+            
+            // Shkruaj te dhenat ne shared_data.json
+            logMessage($client_ip, $data); 
                 
+            // Process the command
             $response = handleCommand($data, $read_sock);
             socket_write($read_sock, $response, strlen($response));
         }
