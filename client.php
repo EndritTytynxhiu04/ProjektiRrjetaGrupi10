@@ -64,7 +64,7 @@ while (true) {
             continue 2;
         }
     }
-}
+
 
  
     $message = $role . "|" . $input . "\n";
