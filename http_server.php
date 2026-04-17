@@ -77,4 +77,79 @@ function sendResponse($clientSocket, $body, $statusCode = 200) {
     // Mbyll lidhjen me klientin
     socket_close($clientSocket);
 }
+
+// Numri total i kerkesave
+$totalRequests = 0;
+
+// Loop kryesor - pret kerkesa nga browser-i
+while (true) {
+    $clientSocket = socket_accept($httpSocket);
+    if ($clientSocket === false) continue;
+
+    socket_getpeername($clientSocket, $clientIp);
+
+    // Timeout 5 sekonda
+    socket_set_option($clientSocket, SOL_SOCKET, SO_RCVTIMEO, [
+        'sec' => 5,
+        'usec' => 0
+    ]);
+
+    $startTime = microtime(true);
+    
+    $request = readRequest($clientSocket);
+
+    if (!$request) {
+        socket_close($clientSocket);
+        continue;
+    }
+
+    $totalRequests++;
+
+    
+    $line = strtok($request, "\r\n");
+
+    
+    if (preg_match('/^(\w+) (\S+)/', $line, $m)) {
+        $method = $m[1]; //GET
+        $path = $m[2]; // /stats
+    } else {
+        $method = 'UNKNOWN';
+        $path = '/';
+    }
+
+    $cleanPath = parse_url($path, PHP_URL_PATH);
+
+    // Log
+    echo "[" . date("H:i:s") . "] Kerkese #$totalRequests nga IP: $clientIp\n";
+    echo "-> " . $method . " " . $path . "\n";
+
+    // Routing
+    if ($method === 'GET' && $cleanPath === '/stats') {
+        $body = handleStats($totalRequests);
+        sendResponse($clientSocket, $body, 200);
+
+    } elseif ($method === 'GET' && $cleanPath === '/') {
+        $body = json_encode([
+            "message" => "HTTP Monitoring Server",
+            "endpoints" => [
+                "/stats" => "Statistikat e serverit"
+            ]
+        ], JSON_PRETTY_PRINT);
+        sendResponse($clientSocket, $body, 200);
+
+    } else {
+        $body = json_encode([
+            "error" => "404 - Faqja nuk u gjet"
+        ], JSON_PRETTY_PRINT);
+        sendResponse($clientSocket, $body, 404);
+    }
+
+    // Koha e pergjigjes
+    $ms = round((microtime(true) - $startTime) * 1000, 2);
+    echo "-> Pergjigja u dergua ne: {$ms}ms\n";
+    echo "---\n";
+
+    //mbyllet ne sendResponse()
+}
+
 ?>
