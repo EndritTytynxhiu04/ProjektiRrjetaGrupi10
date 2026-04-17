@@ -6,5 +6,5 @@ $max_clients = 4;
 
 // HTTP
 $httpHost = "127.0.0.1";
-$httpPort = 8080;
+$httpPort = 9090;
 ?>
