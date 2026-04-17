@@ -34,7 +34,7 @@ function getServerData() {
 }
 
 // Pergatit pergjigjen per stats
-function handleStats() {
+function handleStats($totalRequests = null) {  
 
     // Merr te dhenat nga JSON
     $data = getServerData();
@@ -43,10 +43,15 @@ function handleStats() {
     $data["server_time"] = date("Y-m-d H:i:s");
 
     // Nese server_status nuk ekziston ne JSON, vendos default "running"
-  if (!isset($data["server_status"])) {
-    $data["server_status"] = "running";
-}
+    if (!isset($data["server_status"])) {
+        $data["server_status"] = "running";
+    }
 
-    // Kthen pergjigjen ne format JSON
+    // bllok per total_requests
+    if ($totalRequests !== null) {
+        $data["total_requests"] = $totalRequests;
+    }
+
+    // Kthe pergjigjen ne format JSON
     return json_encode($data, JSON_PRETTY_PRINT);
 }
