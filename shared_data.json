@@ -1,6 +1,41 @@
 {
-    "server_status": "stopped",
+    "server_status": "running",
     "active_connections": 0,
-    "total_messages": 0,
-    "clients": []
+    "total_messages": 3,
+    "messages_list": [
+        {
+            "time": "2026-04-19 00:30:25",
+            "ip": "127.0.0.1:50073",
+            "role": "user",
+            "text": "user|\/list"
+        },
+        {
+            "time": "2026-04-19 00:30:29",
+            "ip": "127.0.0.1:50073",
+            "role": "user",
+            "text": "user|\/list"
+        },
+        {
+            "time": "2026-04-19 00:30:49",
+            "ip": "127.0.0.1:50079",
+            "role": "admin",
+            "text": "admin|\/list"
+        }
+    ],
+    "clients": [
+        {
+            "ip": "127.0.0.1:50073",
+            "type": "user",
+            "messages": 2,
+            "last_seen": "2026-04-19 00:30:29",
+            "status": "disconnected"
+        },
+        {
+            "ip": "127.0.0.1:50079",
+            "type": "admin",
+            "messages": 1,
+            "last_seen": "2026-04-19 00:30:49",
+            "status": "disconnected"
+        }
+    ]
 }

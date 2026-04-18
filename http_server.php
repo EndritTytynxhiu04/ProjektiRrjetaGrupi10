@@ -28,7 +28,7 @@ function readRequest($clientSocket) {
     $request = "";
 
     while (true) {
-        $data = socket_read($clientSocket, 1024);
+        $data = @socket_read($clientSocket, 1024);
 
         if ($data === false || $data === "") {
             break;
