@@ -27,6 +27,7 @@ Ekzekutohet në portin 9090 paralelisht me serverin TCP. Ofron statistika në ko
 
 ## 3. Struktura e Projektit
 
+```bash
 project/
 ├── server.php
 ├── file_manager.php
@@ -35,6 +36,7 @@ project/
 ├── config.php
 ├── shared_data.json
 └── client.php
+
 
 ## 4. Anëtarët e Grupit
 
@@ -106,7 +108,7 @@ Nëse gjithçka është implementuar saktë, do të shfaqet një përgjigje JSON
 - Klientët admin marrin përgjigje më të shpejta se readonly
 - File shared_data.json mund të përmbajë të dhëna testuese dhe përditësohet automatikisht nga serveri
 - File-t e ngarkuar ruhen në server_files/
-- Lidhjet joaktive mbyllen pas 30 sekondash
+- Lidhjet joaktive mbyllen pas 1 minutë
 - Klientët mund të rilidhen në çdo kohë
 
 ## 11. Përfundim
