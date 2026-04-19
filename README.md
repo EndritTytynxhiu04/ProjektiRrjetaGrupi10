@@ -37,11 +37,10 @@ project/
 ├── shared_data.json
 └── client.php
 
-
 ## 4. Anëtarët e Grupit
 
 | Anëtari | Roli |
-|--------|------ |
+|--------|------|
 | Endrit Tytynxhiu | Bërthama e Serverit & Menaxhimi i Lidhjeve |
 | Enesa Buja | Sistemi i File-ve & Komandat Admin |
 | Elmaze Murati | Pjesa e Klientit (Admin & Readonly) |
@@ -61,11 +60,11 @@ php server.php
 ### Hapi 2 - Starto Serverin HTTP për Monitorim
 php http_server.php
 
-### Hapi 3 - Lidhu si Klient Admin
-php client_admin.php
+### Hapi 3 - Lidhu si Klient
+php client.php
 
-### Hapi 4 - Lidhu si Klient Readonly
-php client_readonly.php
+### Shënim:
+Ky projekt përdor vetëm një klient të unifikuar (client.php), i cili mbështet si rolin admin ashtu edhe user (readonly), në varësi të input-it të përdoruesit.
 
 ## 7. Komandat dhe Kontrolli i Aksesit
 
