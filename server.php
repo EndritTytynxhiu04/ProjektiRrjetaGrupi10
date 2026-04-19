@@ -158,15 +158,15 @@ while (true) {
 
             // Perditeso statistikat duke perfshire rolin
             if (isset($server_state['clients'][$client_id])) {
-                $server_state['clients'][$client_id]['messages']++;
-                $server_state['clients'][$client_id]['last_seen'] = date('Y-m-d H:i:s'); // Reset timeout
-                $server_state['clients'][$client_id]['type'] = $msg_role; 
-                $server_state['clients'][$client_id]['status'] = 'active';
-            }
+    $server_state['clients'][$client_id]['messages']++;
+    $server_state['clients'][$client_id]['last_seen'] = date('Y-m-d H:i:s');
+    $server_state['clients'][$client_id]['type'] = $msg_role;
+    $server_state['clients'][$client_id]['status'] = 'active';
+}
 
-            saveState(); 
-                
-            $response = handleCommand($data, $read_sock);
+saveState();
+
+$response = handleCommand($msg_role . "|" . $commandLine, $read_sock);
             socket_write($read_sock, $response, strlen($response));
         }
     }
