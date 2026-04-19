@@ -27,6 +27,7 @@ Ekzekutohet në portin 9090 paralelisht me serverin TCP. Ofron statistika në ko
 
 ## 3. Struktura e Projektit
 
+```bash
 project/
 ├── server.php
 ├── file_manager.php
@@ -39,7 +40,7 @@ project/
 ## 4. Anëtarët e Grupit
 
 | Anëtari | Roli |
-|--------|------ |
+|--------|------|
 | Endrit Tytynxhiu | Bërthama e Serverit & Menaxhimi i Lidhjeve |
 | Enesa Buja | Sistemi i File-ve & Komandat Admin |
 | Elmaze Murati | Pjesa e Klientit (Admin & Readonly) |
@@ -59,11 +60,11 @@ php server.php
 ### Hapi 2 - Starto Serverin HTTP për Monitorim
 php http_server.php
 
-### Hapi 3 - Lidhu si Klient Admin
-php client_admin.php
+### Hapi 3 - Lidhu si Klient
+php client.php
 
-### Hapi 4 - Lidhu si Klient Readonly
-php client_readonly.php
+### Shënim:
+Ky projekt përdor vetëm një klient të unifikuar (client.php), i cili mbështet si rolin admin ashtu edhe user (readonly), në varësi të input-it të përdoruesit.
 
 ## 7. Komandat dhe Kontrolli i Aksesit
 
@@ -106,7 +107,7 @@ Nëse gjithçka është implementuar saktë, do të shfaqet një përgjigje JSON
 - Klientët admin marrin përgjigje më të shpejta se readonly
 - File shared_data.json mund të përmbajë të dhëna testuese dhe përditësohet automatikisht nga serveri
 - File-t e ngarkuar ruhen në server_files/
-- Lidhjet joaktive mbyllen pas 30 sekondash
+- Lidhjet joaktive mbyllen pas 1 minutë
 - Klientët mund të rilidhen në çdo kohë
 
 ## 11. Përfundim
