@@ -159,7 +159,7 @@ $msg_role = $server_state['clients'][$client_id]['type'] ?? 'user';
                 array_shift($server_state['messages_list']);
             }
 
-            // Perditeso statistikat duke perfshire rolin
+           // Perditeso statistikat duke perfshire rolin
             if (isset($server_state['clients'][$client_id])) {
                 $server_state['clients'][$client_id]['messages']++;
                 $server_state['clients'][$client_id]['last_seen'] = date('Y-m-d H:i:s'); // Reset timeout
@@ -169,7 +169,7 @@ $msg_role = $server_state['clients'][$client_id]['type'] ?? 'user';
 
             saveState(); 
                 
-           $response = handleCommand($commandLine, $read_sock);
+          $response = handleCommand($msg_role . "|" . $commandLine, $read_sock);
             socket_write($read_sock, $response, strlen($response));
         }
     }
