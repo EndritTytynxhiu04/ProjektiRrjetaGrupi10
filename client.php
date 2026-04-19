@@ -115,8 +115,8 @@ while (true) {
     // ruajtja e komandave ne history
     $history[] = $input;
 
-   $message = $input . "\n";
-
+$message = $role . "|" . $input . "\n";
+    
     $sent = @socket_write($socket, $message, strlen($message));
 
     if ($sent === false) {
