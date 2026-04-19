@@ -142,6 +142,7 @@ while (true) {
         else {
             $parts = explode("|", trim($data), 2);
             $msg_role = (count($parts) >= 2) ? $parts[0] : 'user';
+            $commandLine = (count($parts) >= 2) ? $parts[1] : trim($data);
 
             $server_state['total_messages']++;
 
