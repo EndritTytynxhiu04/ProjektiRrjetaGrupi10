@@ -139,9 +139,12 @@ while (true) {
             echo "Client $client_id disconnected.\n";
         }
         // mesazh i ri
-        else {
-            $parts = explode("|", trim($data), 2);
-            $msg_role = (count($parts) >= 2) ? $parts[0] : 'user';
+       else {
+
+  $commandLine = trim($data);
+
+$msg_role = $server_state['clients'][$client_id]['type'] ?? 'user';
+
 
             $server_state['total_messages']++;
 
@@ -166,7 +169,7 @@ while (true) {
 
             saveState(); 
                 
-            $response = handleCommand($data, $read_sock);
+           $response = handleCommand($commandLine, $read_sock);
             socket_write($read_sock, $response, strlen($response));
         }
     }
