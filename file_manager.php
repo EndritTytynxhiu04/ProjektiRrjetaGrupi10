@@ -22,19 +22,38 @@ if (!file_exists($BASE_DIR)) {
     mkdir($BASE_DIR);
 }
 
+//Ketu kam vendosur rregullat e aksesit ne baze te roleve (RBAC)
+$permissions = [
+        "admin" => ["*"], // admin ka akses te plote
+        "user"  => ["/list", "/read", "/download", "/search", "/info"]
+    ];
+
+    if (
+        !isset($permissions[$role]) ||
+        (!in_array("*", $permissions[$role]) &&
+         !in_array($command, $permissions[$role]))
+    ) {
+        return "Permission denied (RBAC)\n";
+    }
+
+if ($role === "user") {
+        usleep(200000); // delay i vogel per user duke i jap priority adminit
+}
+
 //Ketu kontrollojme komandat e dhena nga klientet dhe i perpunojme ato
 switch ($command) {
 
     //Liston files ne server
     case "/list":
         $files = array_diff(scandir($BASE_DIR), ['.', '..']);
-        return implode("\n", $files) . "\n";
+        return empty($files) ? "No files\n" : implode("\n", $files) . "\n";
 
     //Lexon permbajtjen e nje fajlli
     case "/read":
         if (!isset($cmdParts[1])) return "Missing filename\n";
 
-        $file = $BASE_DIR . "/" . $cmdParts[1];
+        $filename = basename($cmdParts[1]);
+        $file = $BASE_DIR . "/" . $filename;
 
         if (!file_exists($file)) return "File not found\n";
 
@@ -42,11 +61,9 @@ switch ($command) {
 
     //Ngarkon file nga klienti ne server    
     case "/upload":
-        if ($role !== "admin") return "Permission denied\n";
-
         if (!isset($cmdParts[1])) return "Missing filename\n";
 
-        $filename = $cmdParts[1];
+        $filename = basename($cmdParts[1]);
 
         socket_write($client_socket, "READY\n");
 
@@ -60,7 +77,8 @@ switch ($command) {
     case "/download":
         if (!isset($cmdParts[1])) return "Missing filename\n";
 
-        $file = $BASE_DIR . "/" . $cmdParts[1];
+         $filename = basename($cmdParts[1]);
+        $file = $BASE_DIR . "/" . $filename;
 
         if (!file_exists($file)) return "File not found\n";
 
@@ -68,11 +86,10 @@ switch ($command) {
 
     //Fshin file nga serveri
     case "/delete":
-        if ($role !== "admin") return "Permission denied\n";
-
         if (!isset($cmdParts[1])) return "Missing filename\n";
 
-        $file = $BASE_DIR . "/" . $cmdParts[1];
+        $filename = basename($cmdParts[1]);
+        $file = $BASE_DIR . "/" . $filename;
 
         if (!file_exists($file)) return "File not found\n";
 
@@ -101,7 +118,8 @@ switch ($command) {
     case "/info":
         if (!isset($cmdParts[1])) return "Missing filename\n";
 
-        $file = $BASE_DIR . "/" . $cmdParts[1];
+        $filename = basename($cmdParts[1]);
+        $file = $BASE_DIR . "/" . $filename;
 
         if (!file_exists($file)) return "File not found\n";
 
